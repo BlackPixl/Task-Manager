@@ -1,3 +1,5 @@
+import subprocess as sp
+
 def list_processes():
     processes_bin = sp.check_output("ps -e -o pid,ppid,comm,user",shell=True)
     processes = processes_bin.decode('UTF-8')
