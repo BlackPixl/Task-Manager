@@ -6,9 +6,14 @@ args = arguments.args()
 print(args)  # this prints the arguments given to the script, test only.
 
 new_process = args.get("new")
+kill_process = args.get("kill")
 
 if new_process:
-    print(processes.create_process(new_process))
+    processes.create_process(new_process)
 
 if args.pop("list"):
     processes.list_processes()
+    
+if kill_process:
+    processes.kill_process(kill_process)
+

@@ -14,9 +14,15 @@ def args():
                         type=str,
                         help='Creates a new process')
 
+
+    parser.add_argument("-k",
+                        type=str,
+                        help='Kill a process with given PID')
+
     arguments = parser.parse_args()
 
     return {
         "list": arguments.ls,
-        "new": arguments.n
+        "new": arguments.n,
+        "kill": arguments.k
     }
