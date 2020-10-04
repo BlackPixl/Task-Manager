@@ -1,4 +1,5 @@
 import subprocess as sp
+import time
 
 
 def list_processes():
@@ -14,9 +15,17 @@ def list_processes():
 def create_process(process):
     try:
         sp.Popen([process])
-    except:
+    except FileNotFoundError:
         print('Application not found')
-    
+
+
 def kill_process(pid):
-    kill = sp.check_output(f"kill {pid}",shell=True)
-    print(f'Process {pid} deleted succesfully\n')
+    try:
+        sp.check_output(f"kill {pid}", shell=True)
+        print(f'Process {pid} deleted succesfully\n')
+    except sp.CalledProcessError:
+        print('Process not found')
+
+    print('printing current processes...')
+    time.sleep(3)
+    list_processes()
