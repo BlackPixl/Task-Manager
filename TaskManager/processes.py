@@ -12,4 +12,11 @@ def list_processes():
 
 
 def create_process(process):
-    return process
+    try:
+        sp.Popen([process])
+    except:
+        print('Application not found')
+    
+def kill_process(pid):
+    kill = sp.check_output(f"kill {pid}",shell=True)
+    print(f'Process {pid} deleted succesfully\n')
