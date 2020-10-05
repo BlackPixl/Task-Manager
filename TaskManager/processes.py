@@ -1,7 +1,6 @@
 import subprocess as sp
 import time
 
-
 def list_processes():
     processes_bin = sp.check_output("ps -e -o pid,ppid,comm,user", shell=True)
     processes = processes_bin.decode('UTF-8')
@@ -22,7 +21,7 @@ def create_process(process):
 def kill_process(pid):
     try:
         sp.check_output(f"kill {pid}", shell=True)
-        print(f'Process {pid} deleted succesfully\n')
+        print(f'Process {pid} deleted successfully\n')
     except sp.CalledProcessError:
         print('Process not found')
 
@@ -30,28 +29,28 @@ def kill_process(pid):
     time.sleep(3)
     list_processes()
 
+
 def list_users():
-    users = sp.check_output("ps -A -o user | sort | uniq",shell=True)
+    users = sp.check_output("ps -A -o user | sort | uniq", shell=True)
     users1 = users.decode('UTF-8')
     users_list = users1.split('\n')
     users_list.pop()
-    
+
     if "USER" in users_list:
         users_list.remove("USER")
 
     print('------------------------')
 
-    for i in range(0,len(users_list)):
+    for i in range(0, len(users_list)):
         user2 = users_list[i]
-        print(f"- "+ user2)
-                
+        print(f"- " + user2)
+
     print('------------------------\n')
 
 
-def list_proc_user(selUser):
-    list_users()
-    try:
-        showProcess = sp.run(f"ps -U {selUser} -u {selUser} -o pid,ppid,comm,user",shell=True)
-    except:
-        print('User not found')
-
+def list_proc_user(user):
+    show_process = sp.run(f"ps -U {user} -u {user} -o pid,ppid,comm,user", shell=True)
+    if show_process.returncode == 1:
+        print('\nUser not found')
+        print('Users in the system:\n')
+        list_users()
