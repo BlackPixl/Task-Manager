@@ -29,3 +29,29 @@ def kill_process(pid):
     print('printing current processes...')
     time.sleep(3)
     list_processes()
+
+def list_users():
+    users = sp.check_output("ps -A -o user | sort | uniq",shell=True)
+    users1 = users.decode('UTF-8')
+    users_list = users1.split('\n')
+    users_list.pop()
+    
+    if "USER" in users_list:
+        users_list.remove("USER")
+
+    print('------------------------')
+
+    for i in range(0,len(users_list)):
+        user2 = users_list[i]
+        print(f"- "+ user2)
+                
+    print('------------------------\n')
+
+
+def list_proc_user(selUser):
+    list_users()
+    try:
+        showProcess = sp.run(f"ps -U {selUser} -u {selUser} -o pid,ppid,comm,user",shell=True)
+    except:
+        print('User not found')
+
