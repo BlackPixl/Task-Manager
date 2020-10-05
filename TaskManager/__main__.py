@@ -3,7 +3,7 @@ import processes
 
 args = arguments.args()
 
-print(args)
+print(args)  # this prints the arguments given to the script, test only.
 
 new_process = args.get("new")
 kill_process = args.get("kill")

@@ -1,9 +1,12 @@
 import subprocess as sp
+import time
+
 
 def list_processes():
-    processes_bin = sp.check_output("ps -e -o pid,ppid,comm,user",shell=True)
+    processes_bin = sp.check_output("ps -e -o pid,ppid,comm,user", shell=True)
     processes = processes_bin.decode('UTF-8')
     processes_list = processes.split('\n')
+    processes_list.pop()  # deletes the last element which is an empty string
 
     for proc in processes_list:
         print(proc)
@@ -12,12 +15,20 @@ def list_processes():
 def create_process(process):
     try:
         sp.Popen([process])
-    except:
+    except FileNotFoundError:
         print('Application not found')
-    
+
+
 def kill_process(pid):
-    kill = sp.check_output(f"kill {pid}",shell=True)
-    print(f'Process {pid} deleted succesfully\n')
+    try:
+        sp.check_output(f"kill {pid}", shell=True)
+        print(f'Process {pid} deleted succesfully\n')
+    except sp.CalledProcessError:
+        print('Process not found')
+
+    print('printing current processes...')
+    time.sleep(3)
+    list_processes()
 
 def list_users():
     users = sp.check_output("ps -A -o user | sort | uniq",shell=True)
@@ -43,3 +54,4 @@ def list_proc_user(selUser):
         showProcess = sp.run(f"ps -U {selUser} -u {selUser} -o pid,ppid,comm,user",shell=True)
     except:
         print('User not found')
+
