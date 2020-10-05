@@ -19,10 +19,20 @@ def args():
                         type=str,
                         help='Kill a process with given PID')
 
+    parser.add_argument("-lsu",
+                        action='store_true',
+                        help='list all users')
+
+    parser.add_argument("-lspu",
+                        type=str,
+                        help='lists all running processes of given user')
+
     arguments = parser.parse_args()
 
     return {
         "list": arguments.ls,
         "new": arguments.n,
-        "kill": arguments.k
+        "kill": arguments.k,
+        "list_users": arguments.lsu,
+        "list_proc_user": arguments.lspu
     }
