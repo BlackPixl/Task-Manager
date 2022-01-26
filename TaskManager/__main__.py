@@ -6,8 +6,7 @@ def main():
     flag = True
 
     while flag:
-        getWelcome()
-        getProcess()
+        get_welcome()
         flag = ask()
 
 
@@ -18,7 +17,7 @@ def print_array_contents(array):
     print('------------------------\n')
 
 
-def getProcess():
+def get_process():
     processes_bin = sp.check_output("ps -e -o pid,ppid,comm,user", shell=True)
     processes = processes_bin.decode('UTF-8')
     processes_list = processes.split('\n')
@@ -29,32 +28,32 @@ def getProcess():
     print('------------------------')
 
 
-def createProcess(name_proc):
+def create_process(name_proc):
     try:
         sp.Popen([name_proc])
     except FileNotFoundError:
         print('Application not found')
 
 
-def getWelcome():
+def get_welcome():
     print('Welcome to TaskManager')
     print('------------------------\n')
 
 
-def spawnProcess():
-    app_name = str(input("Insert application's name to open\n>>"))
-    createProcess(app_name)
+def spawn_process():
+    app_name = str(input("Type the name of the app\n>>"))
+    create_process(app_name)
 
 
-def killProcess():
-    PID = input('Write the PID of process to kill: ')
+def kill_process():
+    PID = input('Write the PID of the process to kill: ')
     sp.check_output(f"kill {PID}", shell=True)
-    print(f'Process {PID} deleted successfully\n')
+    print(f'Process {PID} killed successfully\n')
 
 
-def refreshConsole():
+def refresh_console():
     sp.run("clear", shell=True)
-    getProcess()
+    get_process()
 
 
 def get_users():
@@ -75,28 +74,28 @@ def ask():
     res = ''
 
     while res != 'Q':
-        print('Press 1 to spawn process')
-        print('Press 2 to kill process')
-        print('Press 3 to see the number of processes')
-        print('Press 4 to update the list of processes')
-        print('Press 5 to see the users')
-        print('Press 6 to see the processes for each user')
-        print('Press 7 to create a child process')
-        res = input('To exit press "Q" \n>> ')
+        print('Press 1 to spawn a process.')
+        print('Press 2 to kill a task.')
+        print('Press 3 to see the number of open tasks.')
+        print('Press 4 to show all running tasks.')
+        print('Press 5 to see the users.')
+        print('Press 6 to see the running task for a given user.')
+        print('Press 7 to create a child process.')
+        res = input('To exit press "Q". \n>> ')
 
         if res == '1':
-            spawnProcess()
+            spawn_process()
 
         elif res == '2':
-            killProcess()
+            kill_process()
 
         elif res == '3':
             n = sp.check_output("ps aux | wc -l", shell=True)
             n = n.decode('UTF-8')
-            print(f'Number of processes: {n}')
+            print(f'Number of tasks: {n}')
 
         elif res == '4':
-            refreshConsole()
+            refresh_console()
 
         elif res == '5':
             usr_list = get_users()
@@ -117,7 +116,7 @@ def ask():
             return False
 
         else:
-            print('command not recognized')
+            print('command not recognized.\n')
 
 
 main()
